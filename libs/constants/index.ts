@@ -1,0 +1,1 @@
+export const MEMORY_NAME = "MEALS_DETAILS";

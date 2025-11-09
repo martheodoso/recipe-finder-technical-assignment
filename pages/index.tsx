@@ -1,34 +1,72 @@
-export default function Home() {
+import Button from "@/components/Button/Button";
+import FilterPanel from "@/components/FilterPanel/FilterPanel";
+import MealCard from "@/components/MealCard/MealCard";
+import MealCardGrid from "@/components/MealCardGrid/MealCardGrid";
+import SearchBar from "@/components/SearchBar/SearchBar";
+import PageLayout from "@/layout/PageLayout";
+import { CardDetails, CardType, FilterType } from "@/libs/types";
+import { getCardDetails } from "@/libs/utils/cache";
+import { fetchMealsByArea, fetchMealsByCuisine } from "@/libs/utils/fetchData";
+import { getAreas, getCuisineList } from "@/libs/utils/pageFilter";
+import { GetServerSideProps } from "next";
+import { useEffect, useMemo, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
+
+type Props = {
+  pageTitle: string,
+  area: FilterType,
+  cuisine: FilterType,
+  cardDetails: CardDetails[]
+}
+
+export default function Home({ area, cuisine, cardDetails }: Props) {
+  const [jsEnabled, setJSEnabled] = useState(false);
+
+  useEffect(() => {
+    if (!jsEnabled) setJSEnabled(true);
+  }, [jsEnabled])
+
+  const areaList = useMemo(() => getAreas(area), [area])
+  const cuisineList = useMemo(() => getCuisineList(cuisine), [cuisine]);
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <header className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Recipe Finder
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Search and discover delicious meals from around the world
-          </p>
-        </header>
+    <PageLayout >
 
-        <div className="mb-6">
-          <p className="text-gray-500 border border-dashed border-gray-300 p-4 rounded">
-            TODO: Integrate SearchBar component
-          </p>
-        </div>
+      <SearchBar />
 
-        <div className="mb-8">
-          <p className="text-gray-500 border border-dashed border-gray-300 p-4 rounded">
-            TODO: Integrate FilterPanel component
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <p className="col-span-full text-gray-500 text-center py-12 border border-dashed border-gray-300 rounded">
-            TODO: Display meal cards
-          </p>
-        </div>
+      <div className="grid grid-cols-4 space-x-6">
+        <form className="grid grid-rows-2 space-y-4 max-sm:space-y-4 max-sm:grid-rows-2 col-span-1">
+          <FilterPanel filterData={cuisineList} />
+          <FilterPanel filterData={areaList} />
+          {!jsEnabled && <Button actionForm="" label="Apply" />}
+        </form>
+        <MealCardGrid cardDetails={cardDetails} />
       </div>
-    </div>
+    </PageLayout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  let listOfAreas: FilterType = {};
+  let listOfCuisines: FilterType = {};
+  let cardDetails: CardDetails[] = [];
+  try {
+    listOfAreas = await fetchMealsByArea();
+    listOfCuisines = await fetchMealsByCuisine();
+    cardDetails = await getCardDetails();
+  } catch (error) {
+    console.error(error);
+  }
+
+  return {
+    props: {
+      pageTitle: "Recipe finder",
+      area: listOfAreas,
+      cuisine: listOfCuisines,
+      cardDetails: cardDetails
+    }
+  }
+}
+
+
