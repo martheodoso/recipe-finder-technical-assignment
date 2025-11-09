@@ -10,11 +10,12 @@ import PageLayout from "@/layout/PageLayout";
 import { CardDetails, FilterType, PaginationDetails } from "@/libs/types";
 import { getCardDetails, paginationDetails, searchData } from "@/libs/utils/cache";
 import { fetchMealsByArea, fetchMealsByCuisine } from "@/libs/utils/fetchData";
-import { getAreas, getCuisineList } from "@/libs/utils/pageFilter";
+import { convertToDefaultFilterData, filterPageData, getAreas, getCuisineList } from "@/libs/utils/pageFilter";
 import { GetServerSideProps } from "next";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import EmptyResults from "@/components/EmptyResults/EmptyResults";
+import { useRouter } from "next/router";
 
 
 
@@ -29,26 +30,91 @@ type Props = {
 }
 
 export default function Home({ area, cuisine, cardDetails, pages, currentPage, checkedFilters }: Props) {
-  const [jsEnabled, setJSEnabled] = useState(false);
+  const defaultareaList = useMemo(() => convertToDefaultFilterData(getAreas(area), checkedFilters), [area, checkedFilters])
+  const defaultcuisineList = useMemo(() => convertToDefaultFilterData(getCuisineList(cuisine), checkedFilters), [cuisine, checkedFilters]);
+  const router = useRouter();
+  const [areaList, setAreaLIst] = useState(defaultareaList);
+  const [cuisineList, setCuisineList] = useState(defaultcuisineList);
 
-  useEffect(() => {
-    if (!jsEnabled) setJSEnabled(true);
-  }, [jsEnabled])
 
-  const areaList = useMemo(() => getAreas(area), [area])
-  const cuisineList = useMemo(() => getCuisineList(cuisine), [cuisine]);
+  const [areaFilters, setAreaFilters] = useState<string[]>(areaList?.reduce((acc: string[], a) => (checkedFilters.includes(a.value) ? [...acc, a.value] : acc), []) || []);
+  const [cuisineFilters, setCuisineFilters] = useState<string[]>(cuisineList?.reduce((acc: string[], a) => (checkedFilters.includes(a.value) ? [...acc, a.value] : acc), []) || []);
+
+  const updateFilters = (prev: string[], checked: boolean, value: string) => {
+    if (checked) {
+      return [...prev, value];
+    } else {
+      return prev.filter(f => f !== value);
+    }
+  }
+
+  const handleCategoryCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const target = e.target as HTMLInputElement;
+    const value = target.name;
+    const checked = target.checked;
+    setCuisineFilters(prev => updateFilters(prev, checked, value));
+    setCuisineList(prev => prev.map(c => c.value === value ? { ...c, checked } : c));
+
+    router.push({
+      pathname: '/',
+      query: {
+        ...router.query,
+        filters: updateFilters(cuisineFilters, checked, value).concat(areaFilters).join(',')
+      }
+    }, undefined);
+
+  };
+
+  const handleAreaCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const target = e.target as HTMLInputElement;
+    const value = target.name;
+    const checked = target.checked;
+
+    setAreaFilters(prev => updateFilters(prev, checked, value));
+    setAreaLIst(prev => prev.map(a => a.value === value ? { ...a, checked } : a));
+    router.push({
+      pathname: '/',
+      query: {
+        ...router.query,
+        filters: updateFilters(areaFilters, checked, value).concat(cuisineFilters).join(',')
+      }
+    });
+  }
+
+  const handleResetClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setAreaFilters([]);
+    setCuisineFilters([]);
+    setAreaLIst(prev => prev.map(a => ({ ...a, checked: false })));
+    setCuisineList(prev => prev.map(c => ({ ...c, checked: false })));
+
+    router.push({
+      pathname: '/',
+      query: {}
+    });
+  }
+
 
   return (
     <PageLayout >
       <SearchBar />
       <form method="POST">
         <div className="grid grid-cols-4 space-x-6">
-          <FiltersSection cuisineList={cuisineList} areaList={areaList} checkedFilters={checkedFilters} />
+          <FiltersSection
+            cuisineList={cuisineList}
+            areaList={areaList}
+            areaFilters={areaFilters}
+            cuisineFilters={cuisineFilters}
+            handleCuiseineCheckBoxClick={handleCategoryCheckboxChange}
+            handleAreaCheckBoxClick={handleAreaCheckboxChange}
+            handleResetClick={handleResetClick} />
           <div className="w-full col-span-3 space-y-6">
             {
               cardDetails.length === 0 ? <EmptyResults /> :
                 <>
-                  <TagsPanel tags={checkedFilters} />
+                  <TagsPanel tags={[...areaFilters, ...cuisineFilters]} />
                   <MealCardGrid cardDetails={cardDetails} />
                   <Pagination pages={pages} currentPage={currentPage} />
                 </>
@@ -70,19 +136,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let listOfCuisines: FilterType = {};
   let listOfCardDetails: CardDetails[] = [];
   let cardDetailsFiltered: CardDetails[] = [];
-  const cardDetailsSearch: CardDetails[] = [];
+
   let pagination: PaginationDetails = { pages: 0, pageDetails: [] };
   try {
     listOfAreas = await fetchMealsByArea();
     listOfCuisines = await fetchMealsByCuisine();
     listOfCardDetails = await getCardDetails();
 
-    if (listOfFilters.length > 0 && listOfCardDetails.length > 0) {
-      cardDetailsFiltered = listOfCardDetails.filter(({ area, category }) => {
-        return (area && listOfFilters.includes(area)) || (category && listOfFilters.includes(category));
-      });
-    }
-    console.log("Filters applied:", cardDetailsFiltered);
+    cardDetailsFiltered = filterPageData(listOfFilters, listOfCardDetails);
     if (search && search.length > 0) {
 
       const searchResults = await searchData(listOfCardDetails, search as string) as CardDetails[];
@@ -98,7 +159,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     pagination = paginationDetails(listOfCardDetails, page ? Number(page) - 1 : 0);
-    console.log(pagination);
+
 
   } catch (error) {
     console.error(error);

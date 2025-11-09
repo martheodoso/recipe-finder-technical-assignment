@@ -23,4 +23,9 @@ export type PaginationDetails = {
     pageDetails: CardDetails[];
 }
 
+export type FilterDataType = {
+    value: string;
+    checked: boolean;
+};
+
 

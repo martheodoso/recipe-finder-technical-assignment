@@ -1,9 +1,8 @@
 
 type Props = {
 	actionForm: string
-	handleClick?: () => void
+	handleClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 	label?: string
-
 }
 
 const Button = ({ handleClick, label, actionForm }: Props) => {
