@@ -56,3 +56,17 @@ export const fetchDataByIngredient = async (ingredient: string) => {
 		throw new Error("Failed to fetch the data when filtering by ingredient!!")
  }
 }
+
+export const fetchDataById = async (id: string) => {
+  
+  try {
+    const response = await fetch(`${api}/lookup.php?i=${id}`, 
+			{ next: { revalidate: 3600 } });
+    if(!response.ok)
+			throw new Error("Failed to fetch the data when filtering by ingredient!!")
+    return await response.json();
+  } catch(error) {
+    console.error(error);
+    throw new Error("Failed to fetch the data by id!!")
+  }
+ }

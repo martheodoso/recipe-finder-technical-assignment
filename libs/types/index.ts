@@ -28,4 +28,13 @@ export type FilterDataType = {
     checked: boolean;
 };
 
+export type MealType = CardDetails & {
+    instructions: string;
+    videoLink?: string;
+    listOfIngredients: {
+        ingredient: string;
+        measure: string;
+    }[];
+}
+
 

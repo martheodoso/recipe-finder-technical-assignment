@@ -121,10 +121,22 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
     });
   }
 
+  const handleSearch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, searchTerm: string) => {
+    e.preventDefault();
+
+    router.push({
+      pathname: '/',
+      query: {
+        ...router.query,
+        search: searchTerm
+      }
+    });
+
+  }
 
   return (
     <PageLayout >
-      <SearchBar />
+      <SearchBar handleSearch={handleSearch} />
       <form method="POST">
         <div className="grid grid-cols-4 space-x-6">
           <FiltersSection

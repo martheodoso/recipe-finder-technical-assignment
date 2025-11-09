@@ -87,7 +87,7 @@ export const searchData = async (cachedData: CardDetails[], search: string) => {
 	try {
 		const filterByIngredientData = await fetchDataByIngredient(item);
 		
-		if(filterByIngredientData.meals.length > 0) {
+		if(filterByIngredientData?.meals?.length > 0) {
 			
 			return filterByIngredientData?.meals.map((meal: Record<string, string>) => ({
 				id: meal.idMeal,
