@@ -8,7 +8,7 @@ type Props = {
 export const Pagination = ({ pages, currentPage }: Props) => {
 	const isInValidPrevious = !currentPage || currentPage < 2;
 	const isInvalidNext = currentPage === pages;
-	console.log("Current Page in Pagination:", currentPage);
+
 	const paginationbuttonclass = [
 		"px-4",
 		"py-2",

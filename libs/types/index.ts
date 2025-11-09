@@ -14,6 +14,8 @@ export type CardDetails = {
     id: string,
     title: string,
     imageSrc: string
+    category?: string;
+    area?: string;
 }
 
 export type PaginationDetails = {

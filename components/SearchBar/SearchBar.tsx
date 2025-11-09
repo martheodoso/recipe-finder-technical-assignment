@@ -12,7 +12,7 @@ export default function SearchBar() {
       <div className="space-x-4 flex flex-row">
         <input id="search" type="text" name="search"
           className="border border-black bg-white rounded py-2 pl-4 grow-5" placeholder="Search for meals..." />
-        <Button handleClick={handleClick} actionForm="" label="Search" />
+        <Button handleClick={handleClick} actionForm="/api/search" label="Search" />
       </div>
     </form>
   );

@@ -35,10 +35,24 @@ export const fetchDataByFirstLetter = async (letter: string) => {
     const response = await fetch(`${api}/search.php?f=${letter}`, 
 			{ next: { revalidate: 3600 } });
     if(!response.ok)
-			throw new Error("Failed to fetch the data!!")
+			throw new Error("Failed to fetch the data when filtering by first letter!!")
     return await response.json();
   } catch(error) {
     console.error(error);
-		throw new Error("Failed to fetch the data!!")
+		throw new Error("Failed to fetch the data when filtering by first letter!!")
+ }
+}
+
+export const fetchDataByIngredient = async (ingredient: string) => {
+	
+	try {
+    const response = await fetch(`${api}/filter.php?i=${ingredient}`, 
+			{ next: { revalidate: 3600 } });
+    if(!response.ok)
+			throw new Error("Failed to fetch the data when filtering by ingredient!!")
+    return await response.json();
+  } catch(error) {
+    console.error(error);
+		throw new Error("Failed to fetch the data when filtering by ingredient!!")
  }
 }
