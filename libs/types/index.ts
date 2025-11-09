@@ -16,5 +16,9 @@ export type CardDetails = {
     imageSrc: string
 }
 
+export type PaginationDetails = {
+    pages: number;
+    pageDetails: CardDetails[];
+}
 
 

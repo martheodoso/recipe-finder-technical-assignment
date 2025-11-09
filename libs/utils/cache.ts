@@ -1,5 +1,5 @@
 import cache from "memory-cache";
-import { MEMORY_NAME } from "../constants";
+import { ITEMS_PER_PAGE, MEMORY_NAME } from "../constants";
 import { fetchDataByFirstLetter } from "./fetchData";
 import { CardDetails } from "../types";
 
@@ -8,11 +8,22 @@ const alphabet =() => {
 	return alpha.map((x) => String.fromCharCode(x).toLowerCase());
 }
 
-export const getCardDetails = async () => {
+const paginationDetails = (details: CardDetails[], pageNumber: number) => {
+	 console.log(pageNumber);
+	 const pages = Math.ceil(details.length / ITEMS_PER_PAGE);
+	 const pageDetails = details.slice(pageNumber*ITEMS_PER_PAGE, pageNumber*ITEMS_PER_PAGE + ITEMS_PER_PAGE);
+	 
+	 return {
+		pages,
+		pageDetails
+	}
+}
+
+export const getCardDetails = async (page: number) => {
 	
   let carddetails: CardDetails[] = cache.get(MEMORY_NAME) || [];
 	
-	if(carddetails.length > 0) return carddetails;
+	if(carddetails.length > 0) return paginationDetails(carddetails, page);
 	
 	try {
 		const alpha = alphabet();
@@ -41,7 +52,7 @@ export const getCardDetails = async () => {
  
 		cache.put(MEMORY_NAME, carddetails);
 		
-		return carddetails;
+		return paginationDetails(carddetails, page);
 
 	} catch(error) {
 		console.error("Failed to fetch the card details", error);

@@ -2,15 +2,17 @@ import Button from "@/components/Button/Button";
 import FilterPanel from "@/components/FilterPanel/FilterPanel";
 import MealCard from "@/components/MealCard/MealCard";
 import MealCardGrid from "@/components/MealCardGrid/MealCardGrid";
+import { Pagination } from "@/components/Pagination";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import PageLayout from "@/layout/PageLayout";
-import { CardDetails, CardType, FilterType } from "@/libs/types";
+import { CardDetails, FilterType, PaginationDetails } from "@/libs/types";
 import { getCardDetails } from "@/libs/utils/cache";
 import { fetchMealsByArea, fetchMealsByCuisine } from "@/libs/utils/fetchData";
 import { getAreas, getCuisineList } from "@/libs/utils/pageFilter";
 import { GetServerSideProps } from "next";
+import { pages } from "next/dist/build/templates/app-page";
 import { useEffect, useMemo, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+
 
 
 type Props = {
@@ -18,9 +20,11 @@ type Props = {
   area: FilterType,
   cuisine: FilterType,
   cardDetails: CardDetails[]
+  pages: number,
+  currentPage: number
 }
 
-export default function Home({ area, cuisine, cardDetails }: Props) {
+export default function Home({ area, cuisine, cardDetails, pages, currentPage }: Props) {
   const [jsEnabled, setJSEnabled] = useState(false);
 
   useEffect(() => {
@@ -35,26 +39,34 @@ export default function Home({ area, cuisine, cardDetails }: Props) {
 
       <SearchBar />
 
-      <div className="grid grid-cols-4 space-x-6">
-        <form className="grid grid-rows-2 space-y-4 max-sm:space-y-4 max-sm:grid-rows-2 col-span-1">
-          <FilterPanel filterData={cuisineList} />
-          <FilterPanel filterData={areaList} />
-          {!jsEnabled && <Button actionForm="" label="Apply" />}
-        </form>
-        <MealCardGrid cardDetails={cardDetails} />
-      </div>
+      <form method="POST">
+        <div className="grid grid-cols-4 space-x-6">
+          <div className="flex flex-col space-y-4 max-sm:space-y-4 max-sm:grid-rows-2 col-span-1">
+            <FilterPanel filterData={cuisineList} />
+            <FilterPanel filterData={areaList} />
+            {!jsEnabled && <Button actionForm="" label="Apply" />}
+          </div>
+          <div className="w-full col-span-3 space-y-6">
+            <MealCardGrid cardDetails={cardDetails} />
+            <Pagination pages={pages} currentPage={currentPage} />
+          </div>
+        </div>
+      </form>
     </PageLayout>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+  const { query: { page } } = context;
+
   let listOfAreas: FilterType = {};
   let listOfCuisines: FilterType = {};
-  let cardDetails: CardDetails[] = [];
+  let pagination: PaginationDetails = { pages: 0, pageDetails: [] };
   try {
     listOfAreas = await fetchMealsByArea();
     listOfCuisines = await fetchMealsByCuisine();
-    cardDetails = await getCardDetails();
+    pagination = await getCardDetails(page ? Number(page) - 1 : 0);
   } catch (error) {
     console.error(error);
   }
@@ -64,7 +76,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
       pageTitle: "Recipe finder",
       area: listOfAreas,
       cuisine: listOfCuisines,
-      cardDetails: cardDetails
+      cardDetails: pagination.pageDetails || [],
+      pages: pagination.pages,
+      currentPage: page ? Number(page) : 1
+
     }
   }
 }

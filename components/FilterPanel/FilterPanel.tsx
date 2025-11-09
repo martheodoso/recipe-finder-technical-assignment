@@ -9,7 +9,7 @@ type Props = {
 export default function FilterPanel({ filterData, className }: Props) {
 
   return filterData ? (
-    <div className={twMerge("border-2 border-gray-200 p-4 rounded", className)}>
+    <div className={twMerge("border-2 border-gray-200 p-4 rounded max-h-72", className)}>
       <div className="h-60 overflow-scroll">
         {filterData?.map((item) => (
           <div key={uuidv4()} className="dark:text-white space-x-4">
