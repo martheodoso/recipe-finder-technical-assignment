@@ -96,6 +96,31 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
     });
   }
 
+  const handleTagClick = (e: React.MouseEvent<HTMLButtonElement>, tag: string) => {
+    e.preventDefault();
+    const isAreaTag = areaFilters.includes(tag);
+    let updatedAreaFilters = areaFilters;
+    let updatedCuisineFilters = cuisineFilters;
+
+    if (isAreaTag) {
+      updatedAreaFilters = areaFilters.filter(f => f !== tag);
+      setAreaFilters(updatedAreaFilters);
+      setAreaLIst(prev => prev.map(a => a.value === tag ? { ...a, checked: false } : a));
+    } else {
+      updatedCuisineFilters = cuisineFilters.filter(f => f !== tag);
+      setCuisineFilters(updatedCuisineFilters);
+      setCuisineList(prev => prev.map(c => c.value === tag ? { ...c, checked: false } : c));
+    }
+
+    router.push({
+      pathname: '/',
+      query: {
+        ...router.query,
+        filters: updatedAreaFilters.concat(updatedCuisineFilters).join(',')
+      }
+    });
+  }
+
 
   return (
     <PageLayout >
@@ -114,7 +139,7 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
             {
               cardDetails.length === 0 ? <EmptyResults /> :
                 <>
-                  <TagsPanel tags={[...areaFilters, ...cuisineFilters]} />
+                  <TagsPanel tags={[...areaFilters, ...cuisineFilters]} handleTagClick={handleTagClick} />
                   <MealCardGrid cardDetails={cardDetails} />
                   <Pagination pages={pages} currentPage={currentPage} />
                 </>
