@@ -5,7 +5,7 @@ export type FilterType = {
 }
 
 export type CardType = {
-    image: string;
+    image: string | null;
     title: string;
     link: string;
 }

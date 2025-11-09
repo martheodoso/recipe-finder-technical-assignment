@@ -12,6 +12,5 @@ export default function handler(
     if (filters.length) params.filters = filters.join(',');
     if (search) params.search = search;
     const newParams = new URLSearchParams(params);
-    
     res.redirect(`${redirectUrl.pathname}?${newParams.toString()}`);
 }

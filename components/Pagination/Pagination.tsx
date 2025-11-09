@@ -25,22 +25,25 @@ export const Pagination = ({ pages, currentPage }: Props) => {
 		"rounded"];
 
 	return (
-		<div className="inline-flex flex-wrap mt-4 justify-center w-full">
+		<nav className="inline-flex flex-wrap mt-4 justify-center w-full" aria-label="pagination">
 			<button className={twMerge(paginationbuttonclass,
 				(isInValidPrevious) && "opacity-50 cursor-not-allowed")}
 				disabled={isInValidPrevious}
+				aria-label={"Previous Page"}
 				formAction={`/api/pagination?action=previous`}>Previous</button>
 			{Array.from({ length: pages }, (_, i) => i + 1).map((page, indx) => {
 				return (
 					<button key={page} className={twMerge(paginationbuttonclass, currentPage === indx + 1 ? "dark:bg-blue-800 bg-blue-800" : "")}
+						aria-label={`Page ${page}`}
 						formAction={`/api/pagination?nextPage=${indx + 1}`}>{page}</button>
 				)
 			})}
 			<button className={twMerge(paginationbuttonclass,
 				isInvalidNext && "opacity-50 cursor-not-allowed")}
 				disabled={isInvalidNext}
+				aria-label="Next page"
 				formAction={`/api/pagination?action=next`}>Next</button>
-		</div>
+		</nav>
 	)
 };
 

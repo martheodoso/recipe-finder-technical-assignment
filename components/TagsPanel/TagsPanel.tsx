@@ -7,7 +7,8 @@ type TagsPanelProps = {
 }
 
 const TagsPanel = ({ tags, handleTagClick }: TagsPanelProps) => {
-	return tags ? (
+
+	return tags && tags.length > 0 ? (
 		<div className="flex space-x-2 overflow-x-auto py-2">
 			{tags.map((tag) => (
 				<Tag key={uuidv4()} title={tag} handleTagClick={(e) => handleTagClick(e, tag)} />

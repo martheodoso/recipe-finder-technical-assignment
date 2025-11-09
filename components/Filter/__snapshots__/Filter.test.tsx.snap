@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Filter component renders a checkbox and label with the provided item and checked state 1`] = `
+<div>
+  <div
+    class="dark:text-white space-x-4"
+  >
+    <input
+      checked=""
+      id="Vegan"
+      name="Vegan"
+      type="checkbox"
+    />
+    <label
+      for="Vegan"
+    >
+      Vegan
+    </label>
+  </div>
+</div>
+`;

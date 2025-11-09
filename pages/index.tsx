@@ -17,8 +17,6 @@ import { useMemo, useState } from "react";
 import EmptyResults from "@/components/EmptyResults/EmptyResults";
 import { useRouter } from "next/router";
 
-
-
 type Props = {
   pageTitle: string,
   area: FilterType,
@@ -35,6 +33,7 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
   const router = useRouter();
   const [areaList, setAreaLIst] = useState(defaultareaList);
   const [cuisineList, setCuisineList] = useState(defaultcuisineList);
+  const [data, setData] = useState<CardDetails[]>(cardDetails);
 
 
   const [areaFilters, setAreaFilters] = useState<string[]>(areaList?.reduce((acc: string[], a) => (checkedFilters.includes(a.value) ? [...acc, a.value] : acc), []) || []);
@@ -55,11 +54,12 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
     const checked = target.checked;
     setCuisineFilters(prev => updateFilters(prev, checked, value));
     setCuisineList(prev => prev.map(c => c.value === value ? { ...c, checked } : c));
+    const { search } = router.query;
 
     router.push({
       pathname: '/',
       query: {
-        ...router.query,
+        search,
         filters: updateFilters(cuisineFilters, checked, value).concat(areaFilters).join(',')
       }
     }, undefined);
@@ -74,10 +74,11 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
 
     setAreaFilters(prev => updateFilters(prev, checked, value));
     setAreaLIst(prev => prev.map(a => a.value === value ? { ...a, checked } : a));
+    const { search } = router.query;
     router.push({
       pathname: '/',
       query: {
-        ...router.query,
+        search,
         filters: updateFilters(areaFilters, checked, value).concat(cuisineFilters).join(',')
       }
     });
@@ -111,11 +112,11 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
       setCuisineFilters(updatedCuisineFilters);
       setCuisineList(prev => prev.map(c => c.value === tag ? { ...c, checked: false } : c));
     }
-
+    const { search } = router.query;
     router.push({
       pathname: '/',
       query: {
-        ...router.query,
+        search,
         filters: updatedAreaFilters.concat(updatedCuisineFilters).join(',')
       }
     });
@@ -123,11 +124,11 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
 
   const handleSearch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, searchTerm: string) => {
     e.preventDefault();
-
+    const { filters } = router.query;
     router.push({
       pathname: '/',
       query: {
-        ...router.query,
+        filters,
         search: searchTerm
       }
     });

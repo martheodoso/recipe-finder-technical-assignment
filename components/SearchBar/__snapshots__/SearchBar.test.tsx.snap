@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SearchBar renders correctly 1`] = `
+<div>
+  <form
+    class="flex flex-col space-y-4"
+    method="POST"
+  >
+    <label
+      class="text-gray-600 dark:text-gray-400"
+      for="search"
+    >
+      Search and discover delicious meals from around the world
+    </label>
+    <div
+      class="space-x-4 flex flex-row"
+    >
+      <input
+        class="border border-black bg-white rounded py-2 pl-4 grow-5"
+        id="search"
+        name="search"
+        placeholder="Search for meals..."
+        type="text"
+        value=""
+      />
+      <button
+        class="text-white px-6 py-3 bg-blue-800 rounded font-semibold hover:cursor-pointer"
+        formaction="/api/search"
+      >
+        Search
+      </button>
+    </div>
+  </form>
+</div>
+`;

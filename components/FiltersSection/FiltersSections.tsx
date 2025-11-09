@@ -27,15 +27,18 @@ const FiltersSection = (
 	useEffect(() => {
 		if (!jsEnabled) setJSEnabled(true);
 	}, [jsEnabled])
+	console.log(jsEnabled);
 	return (
 		<div className="flex flex-col space-y-4 max-sm:space-y-4 max-sm:grid-rows-2 col-span-1">
 			<FilterPanel
 				filterData={cuisineList}
 				checkedFilters={areaFilters}
+				title="Category"
 				handleCheckBoxClick={handleCuiseineCheckBoxClick} />
 			<FilterPanel
 				filterData={areaList}
 				checkedFilters={cuisineFilters}
+				title={"Cuiseine / Area"}
 				handleCheckBoxClick={handleAreaCheckBoxClick} />
 			<div className="flex space-x-4 justify-center">
 				{!jsEnabled &&
