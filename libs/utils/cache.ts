@@ -2,7 +2,7 @@ import cache from "memory-cache";
 import { ITEMS_PER_PAGE, MEMORY_NAME } from "../constants";
 import { fetchDataByFirstLetter, fetchDataByIngredient } from "./fetchData";
 import { CardDetails } from "../types";
-import { get } from "http";
+
 
 const alphabet =() => {
   const alpha = Array.from(Array(26)).map((e, i) => i + 65);

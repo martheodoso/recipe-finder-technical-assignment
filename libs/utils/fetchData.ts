@@ -1,10 +1,11 @@
 
-const api = process.env.API;
+
 
 
 export const fetchMealsByArea = async () => {
-    
+  const api = process.env.API;
   try {
+    console.log(`${api}/list.php?a=lis`);
     const response = await fetch(`${api}/list.php?a=list`, 
 			{ next: { revalidate: 3600 } });
     if(!response.ok)
@@ -17,6 +18,7 @@ export const fetchMealsByArea = async () => {
 }
 
 export const fetchMealsByCuisine = async () => {
+  const api = process.env.API;
 	try {
     const response = await fetch(`${api}/list.php?c=list`, 
 			{ next: { revalidate: 3600 } });
@@ -30,7 +32,7 @@ export const fetchMealsByCuisine = async () => {
 }
 
 export const fetchDataByFirstLetter = async (letter: string) => {
-	
+	const api = process.env.API;
 	try {
     const response = await fetch(`${api}/search.php?f=${letter}`, 
 			{ next: { revalidate: 3600 } });
@@ -44,7 +46,7 @@ export const fetchDataByFirstLetter = async (letter: string) => {
 }
 
 export const fetchDataByIngredient = async (ingredient: string) => {
-	
+	const api = process.env.API;
 	try {
     const response = await fetch(`${api}/filter.php?i=${ingredient}`, 
 			{ next: { revalidate: 3600 } });
@@ -58,7 +60,7 @@ export const fetchDataByIngredient = async (ingredient: string) => {
 }
 
 export const fetchDataById = async (id: string) => {
-  
+  const api = process.env.API;
   try {
     const response = await fetch(`${api}/lookup.php?i=${id}`, 
 			{ next: { revalidate: 3600 } });

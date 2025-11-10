@@ -5,7 +5,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-    console.log("Removing filter tag:");
+    
     const searchParams = new URL(req.headers.referer || '/').searchParams;
     const removeTag = req.query?.removeTag as string;
     
