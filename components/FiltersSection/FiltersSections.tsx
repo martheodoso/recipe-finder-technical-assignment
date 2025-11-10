@@ -6,8 +6,7 @@ import { FilterDataType } from "@/lib/types";
 type Props = {
 	cuisineList: FilterDataType[] | undefined;
 	areaList: FilterDataType[] | undefined;
-	handleCuiseineCheckBoxClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	handleAreaCheckBoxClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleCheckBoxClick: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 	handleResetClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	areaFilters?: string[];
 	cuisineFilters?: string[];
@@ -20,8 +19,7 @@ const FiltersSection = (
 		areaList,
 		areaFilters,
 		cuisineFilters,
-		handleCuiseineCheckBoxClick,
-		handleAreaCheckBoxClick,
+		handleCheckBoxClick,
 		handleResetClick }: Props) => {
 	const [jsEnabled, setJSEnabled] = useState(false);
 
@@ -29,18 +27,31 @@ const FiltersSection = (
 		if (!jsEnabled) setJSEnabled(true);
 	}, [jsEnabled])
 
+	const data = [
+
+		{
+			id: "category",
+			title: "Category",
+			list: cuisineList,
+			checked: cuisineFilters
+		},
+		{
+			id: "area",
+			title: "Cuisine/Area",
+			list: areaList,
+			checked: areaFilters
+		},
+	]
+
 	return (
 		<div className="flex flex-col space-y-4 max-sm:space-y-4 max-sm:grid-rows-2 col-span-1">
-			<FilterPanel
-				filterData={cuisineList}
-				checkedFilters={areaFilters}
-				title="Category"
-				handleCheckBoxClick={handleCuiseineCheckBoxClick} />
-			<FilterPanel
-				filterData={areaList}
-				checkedFilters={cuisineFilters}
-				title={"Cuiseine / Area"}
-				handleCheckBoxClick={handleAreaCheckBoxClick} />
+			{
+				data.map(({ id, title, list, checked }) => {
+					return (
+						<FilterPanel key={id} filterData={list} checkedFilters={checked} title={title} handleCheckBoxClick={(e) => handleCheckBoxClick(e, id)} />
+					)
+				})
+			}
 			<div className="flex space-x-4 justify-center">
 				{!jsEnabled &&
 					<Button actionForm="/api/apply-filters" label="Apply" />}

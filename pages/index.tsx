@@ -48,42 +48,32 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
   const updateLists = useCallback(() => (prev: FilterDataType[], value: string, checked: boolean) =>
     prev.map(a => a.value === value ? { ...a, checked } : a), []);
 
-  const handleCategoryCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCategoryCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     e.preventDefault();
     const target = e.target as HTMLInputElement;
     const value = target.name;
     const checked = target.checked;
-    setCuisineFilters(prev => updateFilters(prev, checked, value));
-    setCuisineList(prev => updateLists()(prev, value, checked));
+    let filterQueryParam = "";
+    if (id === "category") {
+      setCuisineFilters(prev => updateFilters(prev, checked, value));
+      setCuisineList(prev => updateLists()(prev, value, checked));
+      filterQueryParam = updateFilters(cuisineFilters, checked, value).concat(areaFilters).join(',');
+    } else if (id === "area") {
+      setAreaFilters(prev => updateFilters(prev, checked, value));
+      setAreaLIst(prev => updateLists()(prev, value, checked));
+      filterQueryParam = updateFilters(areaFilters, checked, value).concat(cuisineFilters).join(',');
+    }
     const { search } = router.query;
 
     router.push({
       pathname: '/',
       query: {
         search,
-        filters: updateFilters(cuisineFilters, checked, value).concat(areaFilters).join(',')
+        filters: filterQueryParam
       }
     }, undefined);
 
   };
-
-  const handleAreaCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const target = e.target as HTMLInputElement;
-    const value = target.name;
-    const checked = target.checked;
-
-    setAreaFilters(prev => updateFilters(prev, checked, value));
-    setAreaLIst(prev => updateLists()(prev, value, checked));
-    const { search } = router.query;
-    router.push({
-      pathname: '/',
-      query: {
-        search,
-        filters: updateFilters(areaFilters, checked, value).concat(cuisineFilters).join(',')
-      }
-    });
-  }
 
   const handleResetClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -146,8 +136,7 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
             areaList={areaList}
             areaFilters={areaFilters}
             cuisineFilters={cuisineFilters}
-            handleCuiseineCheckBoxClick={handleCategoryCheckboxChange}
-            handleAreaCheckBoxClick={handleAreaCheckboxChange}
+            handleCheckBoxClick={handleCategoryCheckboxChange}
             handleResetClick={handleResetClick} />
           <div className="w-full col-span-3 space-y-6">
             {

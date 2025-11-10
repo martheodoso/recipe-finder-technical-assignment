@@ -21,15 +21,14 @@ describe('FiltersSection', () => {
     areaList: mockAreaList,
     areaFilters: ['Europe'],
     cuisineFilters: ['Italian'],
-    handleCuiseineCheckBoxClick: jest.fn(),
-    handleAreaCheckBoxClick: jest.fn(),
+    handleCheckBoxClick: jest.fn(),
     handleResetClick: jest.fn()
   };
 
   test('renders filter panels with correct titles', () => {
     render(<FiltersSection {...mockProps} />);
     expect(screen.getByText('Category')).toBeInTheDocument();
-    expect(screen.getByText('Cuiseine / Area')).toBeInTheDocument();
+    expect(screen.getByText('Cuisine/Area')).toBeInTheDocument();
   });
 
   test('renders reset button', () => {
