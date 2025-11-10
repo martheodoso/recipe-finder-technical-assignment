@@ -7,13 +7,13 @@ import { Pagination } from "@/components/Pagination";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import TagsPanel from "@/components/TagsPanel/TagsPanel";
 import PageLayout from "@/layout/PageLayout";
-import { CardDetails, FilterType, PaginationDetails } from "@/libs/types";
+import { CardDetails, FilterDataType, FilterType, PaginationDetails } from "@/libs/types";
 import { getCardDetails, paginationDetails, searchData } from "@/libs/utils/cache";
 import { fetchMealsByArea, fetchMealsByCuisine } from "@/libs/utils/fetchData";
 import { convertToDefaultFilterData, filterPageData, getAreas, getCuisineList } from "@/libs/utils/pageFilter";
 import { GetServerSideProps } from "next";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import EmptyResults from "@/components/EmptyResults/EmptyResults";
 import { useRouter } from "next/router";
 
@@ -28,11 +28,11 @@ type Props = {
 }
 
 export default function Home({ area, cuisine, cardDetails, pages, currentPage, checkedFilters }: Props) {
-  const defaultareaList = useMemo(() => convertToDefaultFilterData(getAreas(area), checkedFilters), [area, checkedFilters])
-  const defaultcuisineList = useMemo(() => convertToDefaultFilterData(getCuisineList(cuisine), checkedFilters), [cuisine, checkedFilters]);
+  const defaultareaList = useMemo(() => getAreas(area), [area])
+  const defaultcuisineList = useMemo(() => getCuisineList(cuisine), [cuisine]);
   const router = useRouter();
-  const [areaList, setAreaLIst] = useState(defaultareaList);
-  const [cuisineList, setCuisineList] = useState(defaultcuisineList);
+  const [areaList, setAreaLIst] = useState(convertToDefaultFilterData(defaultareaList, checkedFilters));
+  const [cuisineList, setCuisineList] = useState(convertToDefaultFilterData(defaultcuisineList, checkedFilters));
 
   const [areaFilters, setAreaFilters] = useState<string[]>(areaList?.reduce((acc: string[], a) => (checkedFilters.includes(a.value) ? [...acc, a.value] : acc), []) || []);
   const [cuisineFilters, setCuisineFilters] = useState<string[]>(cuisineList?.reduce((acc: string[], a) => (checkedFilters.includes(a.value) ? [...acc, a.value] : acc), []) || []);
@@ -45,13 +45,16 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
     }
   }
 
+  const updateLists = useCallback(() => (prev: FilterDataType[], value: string, checked: boolean) =>
+    prev.map(a => a.value === value ? { ...a, checked } : a), []);
+
   const handleCategoryCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const target = e.target as HTMLInputElement;
     const value = target.name;
     const checked = target.checked;
     setCuisineFilters(prev => updateFilters(prev, checked, value));
-    setCuisineList(prev => prev.map(c => c.value === value ? { ...c, checked } : c));
+    setCuisineList(prev => updateLists()(prev, value, checked));
     const { search } = router.query;
 
     router.push({
@@ -71,7 +74,7 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
     const checked = target.checked;
 
     setAreaFilters(prev => updateFilters(prev, checked, value));
-    setAreaLIst(prev => prev.map(a => a.value === value ? { ...a, checked } : a));
+    setAreaLIst(prev => updateLists()(prev, value, checked));
     const { search } = router.query;
     router.push({
       pathname: '/',
