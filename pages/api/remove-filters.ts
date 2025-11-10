@@ -1,6 +1,11 @@
 import { filterTags } from "@/libs/utils/pageFilter";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * Update or remove all filters from query params
+ * It is called by the reset button and the tags
+ * 
+ */
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse,

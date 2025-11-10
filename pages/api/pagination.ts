@@ -1,6 +1,11 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * The handler is called when user clicks in any of the 
+ * buttons in the pagination component
+ * @redirects to same page adding the page query parameter
+ */
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse,

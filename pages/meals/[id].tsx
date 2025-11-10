@@ -61,6 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	let mealData: MealType = {} as MealType;
 
 	try {
+		// Fetch meal data by ID
 		const res = await fetchDataById(id);
 		if (res && res.meals && res.meals.length > 0) {
 			const meal = res.meals[0];

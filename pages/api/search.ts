@@ -1,5 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * Add search query parameter and rediret to the filter page
+ * It is only called when js is off
+ */
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse,

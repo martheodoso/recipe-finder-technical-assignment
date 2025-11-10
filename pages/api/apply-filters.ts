@@ -1,5 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * Handles request to filter data by area or cuisine 
+ * and return only the data that match the filters
+ * This handler is called when js is off
+ */
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse,
