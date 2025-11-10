@@ -171,8 +171,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     listOfCuisines = await fetchMealsByCuisine();
     listOfCardDetails = await getCardDetails();
 
+    const areaFiltered = listOfFilters?.filter((f) => listOfAreas?.meals?.find((t) => t.strArea === f));
+
+    const categoryFiltered = listOfFilters?.filter((f) => listOfCuisines?.meals?.find((t) => t.strCategory === f));
     // Filter data based on selected filters
-    cardDetailsFiltered = filterPageData(listOfFilters, listOfCardDetails);
+    cardDetailsFiltered = filterPageData(areaFiltered, categoryFiltered, listOfCardDetails);
+
     if (search && search.length > 0) {
       // Further filter data based on search term
       const searchResults = await searchData(listOfCardDetails, search as string) as CardDetails[];

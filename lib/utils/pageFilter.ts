@@ -43,16 +43,26 @@ export const convertToDefaultFilterData = (filters: string[] | undefined, checke
 
 /**
  * Filter meal card object by category or cuisine
- * @param listOfFilters 
+ * @param areaFilters 
+ * @param categoryFilters 
  * @param listOfCardDetails 
- * @returns meal card data object
+ * @returns 
  */
-export const filterPageData = (listOfFilters: string[], listOfCardDetails: CardDetails[]) => {
-     if (listOfFilters.length > 0 && listOfCardDetails.length > 0) {
-      return listOfCardDetails.filter(({ area, category }) => {
-        return (area && listOfFilters.includes(area)) || (category && listOfFilters.includes(category));
-      });
+export const filterPageData = (areaFilters: string[], categoryFilters: string[], listOfCardDetails: CardDetails[]) => {
+   
+    if (listOfCardDetails.length > 0) {
+        if(areaFilters.length > 0 && categoryFilters.length > 0) 
+            return listOfCardDetails.filter(({ area, category }) => 
+        ((!!area && areaFilters.includes(area)) && (!!category && categoryFilters.includes(category))));
+
+        if(areaFilters.length > 0){
+            return listOfCardDetails.filter(({ area }) => ((area && areaFilters.includes(area))));
+        }
+        if(categoryFilters.length > 0) {
+            return listOfCardDetails.filter(({ category }) => ((category && categoryFilters.includes(category))));
+        }
+        
     }
-		
+  
     return listOfCardDetails;
 }
