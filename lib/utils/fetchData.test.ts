@@ -33,7 +33,7 @@ it('returns data on success', async () => {
   const result = await fetchMealsByArea();
   expect(mockFetch).toHaveBeenCalledWith(
     'http://test-api/list.php?a=list',
-    { next: { revalidate: 3600 } }
+    { cache: 'force-cache', next: { revalidate: 3600 } }
   );
   expect(result).toEqual({ data: 'test' });
 });
@@ -59,7 +59,7 @@ describe('fetchMealsByCuisine', () => {
     const result = await fetchMealsByCuisine();
     expect(mockFetch).toHaveBeenCalledWith(
       'http://test-api/list.php?c=list',
-      { next: { revalidate: 3600 } }
+      { cache: 'force-cache', next: { revalidate: 3600 } }
     );
     expect(result).toEqual({ data: 'test' });
   });
@@ -85,7 +85,7 @@ describe('fetchDataByFirstLetter', () => {
     const result = await fetchDataByFirstLetter('a');
     expect(mockFetch).toHaveBeenCalledWith(
       'http://test-api/search.php?f=a',
-      { next: { revalidate: 3600 } }
+      { cache: 'force-cache', next: { revalidate: 3600 } }
     );
     expect(result).toEqual({ data: 'test' });
   });
@@ -111,7 +111,7 @@ describe('fetchDataByIngredient', () => {
     const result = await fetchDataByIngredient('chicken');
     expect(mockFetch).toHaveBeenCalledWith(
       'http://test-api/filter.php?i=chicken',
-      { next: { revalidate: 3600 } }
+      {cache: 'force-cache', next: { revalidate: 3600 } }
     );
     expect(result).toEqual({ data: 'test' });
   });
@@ -137,7 +137,7 @@ describe('fetchDataById', () => {
     const result = await fetchDataById('123');
     expect(mockFetch).toHaveBeenCalledWith(
       'http://test-api/lookup.php?i=123',
-      { next: { revalidate: 3600 } }
+      {cache: 'force-cache', next: { revalidate: 3600 } }
     );
     expect(result).toEqual({ data: 'test' });
   });
