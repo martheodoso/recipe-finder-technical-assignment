@@ -7,6 +7,7 @@ type FilterProps = {
 const Filter = ({ item, isChecked, handleCheckBoxClick }: FilterProps) => {
 	return <div className="dark:text-white space-x-4">
 		<input type="checkbox"
+			className="hover:right-4 hover:ring-yellow-300 hover:cursor-pointer focus:shadow-2xl focus:shadow-yellow-300"
 			name={item}
 			id={item}
 			checked={isChecked}

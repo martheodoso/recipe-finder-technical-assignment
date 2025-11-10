@@ -7,6 +7,7 @@ exports[`Filter component renders a checkbox and label with the provided item an
   >
     <input
       checked=""
+      class="hover:right-4 hover:ring-yellow-300 hover:cursor-pointer focus:shadow-2xl focus:shadow-yellow-300"
       id="Vegan"
       name="Vegan"
       type="checkbox"

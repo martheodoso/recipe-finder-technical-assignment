@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import Filter from "./Filter";
+import Filter from "./Checkbox";
 
 describe("Filter component", () => {
   it("renders a checkbox and label with the provided item and checked state", () => {

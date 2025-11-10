@@ -2,7 +2,7 @@
 
 import { twMerge } from 'tailwind-merge';
 import { v4 as uuidv4 } from 'uuid';
-import Filter from '../Filter/Filter';
+import Filter from '../Checkbox/Checkbox';
 import { FilterDataType } from '@/lib/types';
 type Props = {
   filterData: FilterDataType[] | undefined;
