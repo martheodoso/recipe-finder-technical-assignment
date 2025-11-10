@@ -1,3 +1,4 @@
+import Video from "@/components/Video/Video"
 import { MealType } from "@/libs/types"
 import { fetchDataById } from "@/libs/utils/fetchData"
 
@@ -11,44 +12,40 @@ type Props = {
 }
 
 const Page = ({ mealData }: Props) => {
-	const sectionStyle = "lg:h-128 space-y-6 bg-gray-600 p-6 rounded-lg shadow-lg";
+	const sectionStyle = "space-y-6 bg-gray-600 p-6 rounded-lg shadow-lg";
+
 	return (
-		<div className="dark:bg-gray-900 min-h-screen p-8 space-y-8">
-			<Link href="/" className="text-blue-400 underline flex items-center mb-8">
-				<svg xmlns="http://www.w3.org/2000/svg" className="inline h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-					<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clipRule="evenodd" />
-				</svg>
-				Back to Home</Link>
-			<div className={twMerge("md:h-96", sectionStyle)}>
-				<div className="relative w-full h-64">
-					<Image src={mealData.imageSrc}
-						alt={mealData.title}
-						fill
-						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-						className="object-cover w-full rounded" />
+		<div className="dark:bg-gray-900">
+			<div className="max-w-4xl mx-auto min-h-screen p-8 space-y-8">
+				<Link href="/" className="text-blue-400 underline flex items-center mb-8">
+					<svg xmlns="http://www.w3.org/2000/svg" className="inline h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+						<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clipRule="evenodd" />
+					</svg>
+					Back to Home</Link>
+				<div className={twMerge("md:h-[450px]", sectionStyle)}>
+					<div className="relative w-full h-64 md:h-72 ">
+						<Image src={mealData.imageSrc}
+							alt={mealData.title}
+							fill
+							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+							className="object-cover w-full rounded" />
+					</div>
+					<h1 className="text-3xl font-bold mb-2 text-teal-50">{mealData.title}</h1>
+					<p className="mb-4 text-teal-100 p-6"><span className="font-semibold">Category:</span> {mealData.category} | <span className="font-semibold">Area:</span> {mealData.area}</p>
 				</div>
-				<h1 className="text-3xl font-bold mb-2 text-teal-50">{mealData.title}</h1>
-				<p className="mb-4 text-teal-100"><span className="font-semibold">Category:</span> {mealData.category} | <span className="font-semibold">Area:</span> {mealData.area}</p>
-			</div>
-			<div className={twMerge(sectionStyle)}>
-				<h2 className="text-2xl font-semibold mb-2 text-white">Ingredients:</h2>
-				<ul className="list-disc pl-2 list-inside text-white">
-					{mealData.listOfIngredients.map(({ ingredient, measure }, index) => (
-						<li key={index}>{ingredient} - {measure}</li>
-					))}
-				</ul>
-			</div>
-			<div className={twMerge(sectionStyle)}>
-				<h2 className="text-2xl font-semibold mb-2 text-white">Instructions:</h2>
-				<p className="whitespace-pre-line text-white">{mealData.instructions}</p>
-			</div>
-			<div className={twMerge(sectionStyle)}>
-				<h2 className="text-2xl font-semibold mb-2 text-white">Video Tutorial:</h2>
-				{mealData.videoLink ? (
-					<iframe width="100%" height="auto" src={mealData.videoLink} className="rounded" />
-				) : (
-					<p className="text-white">No video tutorial available.</p>
-				)}
+				<div className={twMerge(sectionStyle)}>
+					<h2 className="text-2xl font-semibold mb-2 text-white">Ingredients:</h2>
+					<ul className="list-disc pl-2 list-inside text-white">
+						{mealData.listOfIngredients.map(({ ingredient, measure }, index) => (
+							<li key={index}>{ingredient} - {measure}</li>
+						))}
+					</ul>
+				</div>
+				<div className={twMerge(sectionStyle)}>
+					<h2 className="text-2xl font-semibold mb-2 text-white">Instructions:</h2>
+					<p className="whitespace-pre-line text-white">{mealData.instructions}</p>
+				</div>
+				{mealData.videoLink && <Video videoLink={mealData.videoLink} title={mealData.title} className={sectionStyle} />}
 			</div>
 		</div>
 	)
