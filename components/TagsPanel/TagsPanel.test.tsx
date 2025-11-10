@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import TagsPanel from "./TagsPanel";
 
 // Mock uuid to keep keys stable
-jest.mock("uuid", () => ({ v4: () => "stable-uuid" }));
+jest.mock("uuid", () => ({ v4: () => { let value = 0; return value++; } }));
 
 describe("TagsPanel", () => {
   it("renders nothing when tags is empty", () => {

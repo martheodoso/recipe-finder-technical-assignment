@@ -14,7 +14,6 @@ export default function MealCard({ image, title, link }: CardType) {
       <div className="relative w-full h-full">
         {image &&
           <Image src={`${image}`} alt="" fill role="presentation"
-            placeholder="blur" blurDataURL={title}
             data-testid={testId}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
             className="object-cover w-full rounded" loading="lazy" />}

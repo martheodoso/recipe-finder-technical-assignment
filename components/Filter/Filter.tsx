@@ -2,7 +2,7 @@
 type FilterProps = {
 	item: string;
 	isChecked: boolean;
-	handleCheckBoxClick?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleCheckBoxClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const Filter = ({ item, isChecked, handleCheckBoxClick }: FilterProps) => {
 	return <div className="dark:text-white space-x-4">

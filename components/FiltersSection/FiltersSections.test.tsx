@@ -3,7 +3,7 @@ import FiltersSection from './FiltersSections';
 
 
 // Mock uuid to keep keys stable
-jest.mock("uuid", () => ({ v4: () => "stable-uuid" }));
+jest.mock("uuid", () => ({ v4: () => { let value = 0; return () => value++; } }));
 
 describe('FiltersSection', () => {
   const mockCuisineList = [

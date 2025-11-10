@@ -4,7 +4,8 @@ import Filter from "./Filter";
 
 describe("Filter component", () => {
   it("renders a checkbox and label with the provided item and checked state", () => {
-    const { container } = render(<Filter item="Vegan" isChecked={true} />);
+    const handle = jest.fn();
+    const { container } = render(<Filter item="Vegan" isChecked={true} handleCheckBoxClick={handle} />);
     expect(container).toMatchSnapshot();
   });
 
@@ -18,10 +19,4 @@ describe("Filter component", () => {
     expect(handle).toHaveBeenCalledTimes(1);
   });
 
-  it("does not throw if no handler is provided and the checkbox is clicked", () => {
-    render(<Filter item="Vegetarian" isChecked={false} />);
-
-    const checkbox = screen.getByLabelText("Vegetarian") as HTMLInputElement;
-    expect(() => fireEvent.click(checkbox)).not.toThrow();
-  });
 });

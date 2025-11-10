@@ -6,10 +6,10 @@ import Filter from '../Filter/Filter';
 import { FilterDataType } from '@/lib/types';
 type Props = {
   filterData: FilterDataType[] | undefined;
+  handleCheckBoxClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title?: string;
   className?: string;
   checkedFilters?: string[];
-  handleCheckBoxClick?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function FilterPanel({ filterData, className, title, handleCheckBoxClick }: Props) {

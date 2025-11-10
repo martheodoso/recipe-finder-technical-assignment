@@ -6,11 +6,12 @@ import { FilterDataType } from "@/lib/types";
 type Props = {
 	cuisineList: FilterDataType[] | undefined;
 	areaList: FilterDataType[] | undefined;
+	handleCuiseineCheckBoxClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleAreaCheckBoxClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleResetClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	areaFilters?: string[];
 	cuisineFilters?: string[];
-	handleCuiseineCheckBoxClick?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	handleAreaCheckBoxClick?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	handleResetClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+
 }
 
 const FiltersSection = (
