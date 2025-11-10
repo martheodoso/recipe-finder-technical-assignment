@@ -6,7 +6,6 @@
 export const fetchMealsByArea = async () => {
   const api = process.env.API;
   try {
-    console.log(`${api}/list.php?a=lis`);
     const response = await fetch(`${api}/list.php?a=list`, 
 			{ next: { revalidate: 3600 } });
     if(!response.ok)

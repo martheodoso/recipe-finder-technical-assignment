@@ -24,7 +24,7 @@ exports[`SearchBar renders correctly 1`] = `
         value=""
       />
       <button
-        class="text-white px-6 py-3 bg-blue-800 rounded font-semibold hover:cursor-pointer"
+        class="text-white px-6 py-3 bg-blue-800 rounded font-semibold hover:cursor-pointer hover:bg-blue-900 transition-colors focus:shadow-sm focus:shadow-blue-500"
         formaction="/api/search"
       >
         Search

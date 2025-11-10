@@ -3,7 +3,7 @@
 exports[`Button component renders the provided label 1`] = `
 <div>
   <button
-    class="text-white px-6 py-3 bg-blue-800 rounded font-semibold hover:cursor-pointer"
+    class="text-white px-6 py-3 bg-blue-800 rounded font-semibold hover:cursor-pointer hover:bg-blue-900 transition-colors focus:shadow-sm focus:shadow-blue-500"
     formaction="/submit"
   >
     Click me

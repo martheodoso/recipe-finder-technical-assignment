@@ -27,7 +27,7 @@ const FiltersSection = (
 	useEffect(() => {
 		if (!jsEnabled) setJSEnabled(true);
 	}, [jsEnabled])
-	console.log(jsEnabled);
+
 	return (
 		<div className="flex flex-col space-y-4 max-sm:space-y-4 max-sm:grid-rows-2 col-span-1">
 			<FilterPanel
@@ -43,7 +43,7 @@ const FiltersSection = (
 			<div className="flex space-x-4 justify-center">
 				{!jsEnabled &&
 					<Button actionForm="/api/apply-filters" label="Apply" />}
-				<Button handleClick={handleResetClick} actionForm="/api/remove-filters" label="Reset" />
+				<Button handleClick={handleResetClick} actionForm={`/api/remove-filters?reset=true`} label="Reset" />
 			</div>
 		</div>
 	);

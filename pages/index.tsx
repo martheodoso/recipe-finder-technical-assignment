@@ -33,8 +33,6 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
   const router = useRouter();
   const [areaList, setAreaLIst] = useState(defaultareaList);
   const [cuisineList, setCuisineList] = useState(defaultcuisineList);
-  const [data, setData] = useState<CardDetails[]>(cardDetails);
-
 
   const [areaFilters, setAreaFilters] = useState<string[]>(areaList?.reduce((acc: string[], a) => (checkedFilters.includes(a.value) ? [...acc, a.value] : acc), []) || []);
   const [cuisineFilters, setCuisineFilters] = useState<string[]>(cuisineList?.reduce((acc: string[], a) => (checkedFilters.includes(a.value) ? [...acc, a.value] : acc), []) || []);
