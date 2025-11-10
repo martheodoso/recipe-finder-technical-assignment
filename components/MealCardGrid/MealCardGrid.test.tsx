@@ -22,10 +22,11 @@ describe("MealCardGrid", () => {
   });
 
   it("passes correct props to MealCard", () => {
+    const mockTestID = ["Meal-1", "Meal-2"];
     render(<MealCardGrid cardDetails={mockCardDetails} />);
-    mockCardDetails.forEach((detail) => {
+    mockCardDetails.forEach((detail, index) => {
       expect(screen.getByText(detail.title)).toBeInTheDocument();
-      expect(screen.getByAltText(detail.title)).toHaveAttribute("src", detail.imageSrc);
+      expect(screen.getByTestId(mockTestID[index])).toHaveAttribute("src", detail.imageSrc);
     });
   });
 

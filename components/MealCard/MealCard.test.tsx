@@ -22,7 +22,7 @@ describe("MealCard", () => {
 
   it("renders the image with correct src and alt", () => {
     render(<MealCard {...props} />);
-    const img = screen.getByAltText("Test Meal") as HTMLImageElement;
+    const img = screen.getByTestId("Test-Meal") as HTMLImageElement;
     expect(img).toBeInTheDocument();
     expect(img.src).toContain(props.image);
   });
