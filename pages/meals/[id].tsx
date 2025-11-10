@@ -1,9 +1,13 @@
+import MealDescriptionPanel from "@/components/MealDescriptionPanel/MealDescriptionPanel"
+import MealIngredientsPanel from "@/components/MealIngredientsPanel/MealIngredientsPanel"
+import MealIntroPanel from "@/components/MealIntroPanel/MealIntroPanel"
+
 import Video from "@/components/Video/Video"
 import { MealType } from "@/libs/types"
 import { fetchDataById } from "@/libs/utils/fetchData"
 
 import { GetServerSideProps } from "next"
-import Image from "next/image"
+
 import Link from "next/link"
 import { twMerge } from "tailwind-merge"
 
@@ -23,28 +27,22 @@ const Page = ({ mealData }: Props) => {
 					</svg>
 					Back to Home</Link>
 				<div className={twMerge("md:h-[450px]", sectionStyle)}>
-					<div className="relative w-full h-64 md:h-72 ">
-						<Image src={mealData.imageSrc}
-							alt={mealData.title}
-							fill
-							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-							className="object-cover w-full rounded" />
+					<MealIntroPanel mealData={{
+						imageSrc: mealData.imageSrc,
+						title: mealData.title,
+						category: mealData.category,
+						area: mealData.area
+					}} />
+				</div>
+				{
+					mealData.listOfIngredients && <div className={twMerge(sectionStyle)}>
+						<MealIngredientsPanel ingredients={mealData.listOfIngredients} />
 					</div>
-					<h1 className="text-3xl font-bold mb-2 text-teal-50">{mealData.title}</h1>
-					<p className="mb-4 text-teal-100 p-6"><span className="font-semibold">Category:</span> {mealData.category} | <span className="font-semibold">Area:</span> {mealData.area}</p>
-				</div>
-				<div className={twMerge(sectionStyle)}>
-					<h2 className="text-2xl font-semibold mb-2 text-white">Ingredients:</h2>
-					<ul className="list-disc pl-2 list-inside text-white">
-						{mealData.listOfIngredients.map(({ ingredient, measure }, index) => (
-							<li key={index}>{ingredient} - {measure}</li>
-						))}
-					</ul>
-				</div>
-				<div className={twMerge(sectionStyle)}>
-					<h2 className="text-2xl font-semibold mb-2 text-white">Instructions:</h2>
-					<p className="whitespace-pre-line text-white">{mealData.instructions}</p>
-				</div>
+				}
+				{
+					mealData.instructions && <div className={twMerge(sectionStyle)}>
+						<MealDescriptionPanel description={mealData.instructions} />
+					</div>}
 				{mealData.videoLink && <Video videoLink={mealData.videoLink} title={mealData.title} className={sectionStyle} />}
 			</div>
 		</div>
