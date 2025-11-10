@@ -138,8 +138,8 @@ export default function Home({ area, cuisine, cardDetails, pages, currentPage, c
 
   return (
     <PageLayout >
-      <SearchBar handleSearch={handleSearch} />
       <form method="POST">
+        <SearchBar handleSearch={handleSearch} />
         <div className="space-y-6 md:grid md:grid-cols-4 md:space-x-6">
           <FiltersSection
             cuisineList={cuisineList}
