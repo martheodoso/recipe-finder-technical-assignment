@@ -1,4 +1,4 @@
-import { CardDetails } from "@/libs/types";
+import { CardDetails } from "@/lib/types";
 import MealCard from "../MealCard/MealCard";
 
 type Props = {

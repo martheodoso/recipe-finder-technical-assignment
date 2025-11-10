@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import FilterPanel from "../FilterPanel/FilterPanel";
-import { FilterDataType } from "@/libs/types";
+import { FilterDataType } from "@/lib/types";
 
 type Props = {
 	cuisineList: FilterDataType[] | undefined;

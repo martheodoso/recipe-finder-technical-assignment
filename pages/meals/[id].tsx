@@ -3,8 +3,8 @@ import MealIngredientsPanel from "@/components/MealIngredientsPanel/MealIngredie
 import MealIntroPanel from "@/components/MealIntroPanel/MealIntroPanel"
 
 import Video from "@/components/Video/Video"
-import { MealType } from "@/libs/types"
-import { fetchDataById } from "@/libs/utils/fetchData"
+import { MealType } from "@/lib/types"
+import { fetchDataById } from "@/lib/utils/fetchData"
 
 import { GetServerSideProps } from "next"
 

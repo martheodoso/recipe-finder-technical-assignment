@@ -1,4 +1,4 @@
-import { filterTags } from "@/libs/utils/pageFilter";
+import { filterTags } from "@/lib/utils/pageFilter";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 /**

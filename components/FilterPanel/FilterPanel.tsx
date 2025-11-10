@@ -3,7 +3,7 @@
 import { twMerge } from 'tailwind-merge';
 import { v4 as uuidv4 } from 'uuid';
 import Filter from '../Filter/Filter';
-import { FilterDataType } from '@/libs/types';
+import { FilterDataType } from '@/lib/types';
 type Props = {
   filterData: FilterDataType[] | undefined;
   title?: string;

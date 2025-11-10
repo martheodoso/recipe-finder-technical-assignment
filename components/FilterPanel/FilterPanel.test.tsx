@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FilterPanel from './FilterPanel';
-import { FilterDataType } from '@/libs/types';
+import { FilterDataType } from '@/lib/types';
 
 
 // Mock uuid to keep keys stable

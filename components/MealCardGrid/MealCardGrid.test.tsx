@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import MealCardGrid from "./MealCardGrid";
-import { CardDetails } from "@/libs/types";
+import { CardDetails } from "@/lib/types";
 
 jest.mock("next/image", () => ({
   __esModule: true,

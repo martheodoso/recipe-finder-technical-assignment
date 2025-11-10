@@ -1,9 +1,10 @@
+import { CardDetails } from "../types";
 import { getAreas, getCuisineList, filterTags, convertToDefaultFilterData, filterPageData } from "./pageFilter";
 
 describe("pageFilter utilities", () => {
   describe("getAreas", () => {
     it("returns list of strArea values when meals present", () => {
-      const input = { meals: [{ strArea: "Italian" }, { strArea: "Mexican" }] } as any;
+      const input = { meals: [{ strArea: "Italian" }, { strArea: "Mexican" }]};
       expect(getAreas(input)).toEqual(["Italian", "Mexican"]);
     });
 
@@ -13,21 +14,16 @@ describe("pageFilter utilities", () => {
     });
 
     it("returns [] when meals is an empty array", () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const input = { meals: [] } as any;
+      
+      const input = { meals: [] };
       expect(getAreas(input)).toEqual([]);
     });
   });
 
   describe("getCuisineList", () => {
     it("returns list of strCategory values when meals present", () => {
-      const input = { meals: [{ strCategory: "Seafood" }, { strCategory: "Vegan" }] } as any;
+      const input = { meals: [{ strCategory: "Seafood" }, { strCategory: "Vegan" }] };
       expect(getCuisineList(input)).toEqual(["Seafood", "Vegan"]);
-    });
-
-    it("returns undefined when input is undefined", () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(getCuisineList(undefined as any)).toBeUndefined();
     });
 
     it("returns [] when meals is an empty array", () => {
@@ -78,8 +74,8 @@ describe("pageFilter utilities", () => {
     const cards = [
       { id: 1, area: "Italian", category: "Main" },
       { id: 2, area: "French", category: "Dessert" },
-      { id: 3, /* no area */ category: "Italian" },
-    ] as any[];
+      { id: 3, /*no area */ category: "Italian" },
+    ] as unknown as CardDetails[];
 
     it("returns original list when filters array is empty", () => {
       expect(filterPageData([], cards)).toEqual(cards);

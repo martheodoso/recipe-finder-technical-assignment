@@ -1,4 +1,4 @@
-import { CardType } from "@/libs/types";
+import { CardType } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 

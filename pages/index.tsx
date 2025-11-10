@@ -7,10 +7,10 @@ import { Pagination } from "@/components/Pagination";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import TagsPanel from "@/components/TagsPanel/TagsPanel";
 import PageLayout from "@/layout/PageLayout";
-import { CardDetails, FilterDataType, FilterType, PaginationDetails } from "@/libs/types";
-import { getCardDetails, paginationDetails, searchData } from "@/libs/utils/cache";
-import { fetchMealsByArea, fetchMealsByCuisine } from "@/libs/utils/fetchData";
-import { convertToDefaultFilterData, filterPageData, getAreas, getCuisineList } from "@/libs/utils/pageFilter";
+import { CardDetails, FilterDataType, FilterType, PaginationDetails } from "@/lib/types";
+import { getCardDetails, paginationDetails, searchData } from "@/lib/utils/cache";
+import { fetchMealsByArea, fetchMealsByCuisine } from "@/lib/utils/fetchData";
+import { convertToDefaultFilterData, filterPageData, getAreas, getCuisineList } from "@/lib/utils/pageFilter";
 import { GetServerSideProps } from "next";
 
 import { useCallback, useMemo, useState } from "react";

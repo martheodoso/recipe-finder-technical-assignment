@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import handler from "./remove-filters";
-import { filterTags } from "@/libs/utils/pageFilter";
+import { filterTags } from "@/lib/utils/pageFilter";
 
-jest.mock("@/libs/utils/pageFilter", () => ({
+jest.mock("@/lib/utils/pageFilter", () => ({
   filterTags: jest.fn(),
 }));
 
