@@ -3,14 +3,22 @@ import { ITEMS_PER_PAGE, MEMORY_NAME } from "../constants";
 import { fetchDataByFirstLetter, fetchDataByIngredient } from "./fetchData";
 import { CardDetails } from "../types";
 
-
+/**
+ * 
+ * @returns an array with the alphabet in lower case
+ */
 const alphabet =() => {
   const alpha = Array.from(Array(26)).map((e, i) => i + 65);
 	return alpha.map((x) => String.fromCharCode(x).toLowerCase());
 }
 
+/**
+ * Get number of pages and data in specific page
+ * @param details 
+ * @param pageNumber 
+ * @returns 
+ */
 export const paginationDetails = (details: CardDetails[], pageNumber: number) => {
-	
 	 const pages = Math.ceil(details.length / ITEMS_PER_PAGE);
 	 const endIndex = pageNumber*ITEMS_PER_PAGE + ITEMS_PER_PAGE > details.length ? 
 	 details.length : pageNumber*ITEMS_PER_PAGE + ITEMS_PER_PAGE;
@@ -23,6 +31,12 @@ export const paginationDetails = (details: CardDetails[], pageNumber: number) =>
 	}
 }
 
+/**
+ * Initial fetch of all data using the API 
+ * to get data by first letter
+ * and save them to memory cache
+ * @returns 
+ */
 export const getCardDetails = async () => {
 	
   let carddetails: CardDetails[] = cache.get(MEMORY_NAME) || [];
@@ -70,10 +84,22 @@ export const clearCache = () => {
 	cache.clear();
 }
 
+/**
+ * Replace spaces with underscore in strings
+ * @param input 
+ * @returns 
+ */
 export const convertToStringWithUnderscores = (input: string) => {
 	return input.replace(/\s+/g, '_');
 }
 
+/**
+ * Search card details object for matrching string with area category,
+ * cuisine category or title
+ * @param data 
+ * @param item 
+ * @returns 
+ */
 export const filterCardDetails = (data: CardDetails[], item: string) => {
 	const filteredData = data.filter(({ area, category, title }) => {
 		return area?.includes(item) || category?.includes(item) || title?.includes(item);
@@ -81,6 +107,12 @@ export const filterCardDetails = (data: CardDetails[], item: string) => {
 	return filteredData;
 }
 
+/**
+ * Search data by ingredient
+ * @param cachedData 
+ * @param search 
+ * @returns 
+ */
 export const searchData = async (cachedData: CardDetails[], search: string) => {
 	const item = convertToStringWithUnderscores(search.toLowerCase());
 	
@@ -102,6 +134,5 @@ export const searchData = async (cachedData: CardDetails[], search: string) => {
 		return [];
 	}
 	
-	 
 }
 

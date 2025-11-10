@@ -12,21 +12,21 @@ describe("pages/api/remove-filters handler", () => {
   });
 
   it("removes a tag and preserves other query params", () => {
-    (filterTags as jest.Mock).mockReturnValue(["a"]);
+    (filterTags as jest.Mock).mockReturnValue(["beef"]);
     const req = {
-      headers: { referer: "https://example.com/recipes?filters=a,b&search=rice" },
-      query: { removeTag: "b" },
+      headers: { referer: "https://example.com/recipes?filters=beef,apples&search=rice" },
+      query: { removeTag: "beef" },
     } as Partial<NextApiRequest>;
     const redirect = jest.fn();
     const res = { redirect } as Partial<NextApiResponse>;
 
     handler(req as unknown as NextApiRequest, res as unknown as NextApiResponse);
 
-    expect((filterTags as jest.Mock)).toHaveBeenCalledWith(["a", "b"], "b");
+    expect((filterTags as jest.Mock)).toHaveBeenCalledWith(["beef", "apples"], "beef");
     expect(redirect).toHaveBeenCalledTimes(1);
     const calledWith = redirect.mock.calls[0][0] as string;
     expect(calledWith.startsWith("/recipes?")).toBe(true);
-    expect(calledWith).toContain("filters=a");
+    expect(calledWith).toContain("filters=beef");
     expect(calledWith).toContain("search=rice");
   });
 

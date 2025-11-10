@@ -1,7 +1,8 @@
 
-
-
-
+/**
+ * Fetch data by category / area API call
+ * @returns 
+ */
 export const fetchMealsByArea = async () => {
   const api = process.env.API;
   try {
@@ -17,6 +18,10 @@ export const fetchMealsByArea = async () => {
  }
 }
 
+/**
+ * Fetch data by category / cuisine API call
+ * @returns 
+ */
 export const fetchMealsByCuisine = async () => {
   const api = process.env.API;
 	try {
@@ -31,6 +36,11 @@ export const fetchMealsByCuisine = async () => {
  }
 }
 
+/**
+ * Fetch data by first letter API call
+ * @param letter 
+ * @returns 
+ */
 export const fetchDataByFirstLetter = async (letter: string) => {
 	const api = process.env.API;
 	try {
@@ -45,6 +55,11 @@ export const fetchDataByFirstLetter = async (letter: string) => {
  }
 }
 
+/**
+ * Fetch data by first letter API call 
+ * @param ingredient 
+ * @returns 
+ */
 export const fetchDataByIngredient = async (ingredient: string) => {
 	const api = process.env.API;
 	try {
@@ -59,6 +74,11 @@ export const fetchDataByIngredient = async (ingredient: string) => {
  }
 }
 
+/**
+ * Fetch data by id API call
+ * @param id 
+ * @returns 
+ */
 export const fetchDataById = async (id: string) => {
   const api = process.env.API;
   try {

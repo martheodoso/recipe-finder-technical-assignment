@@ -9,9 +9,9 @@ export default function handler(
         body : { search }
     } = req;
  
-    const searchParams = new URL(referer || '/').searchParams;
+    const searchParams = new URL(referer as string).searchParams;
     searchParams.set('search', search);
     
-    res.redirect(`${new URL(referer || '/').pathname}?${searchParams.toString()}`);
+    res.redirect(`${new URL(referer as string).pathname}?${searchParams.toString()}`);
 
 }

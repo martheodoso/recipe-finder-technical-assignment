@@ -8,7 +8,7 @@ export default function handler(
     
     const search = req.headers.referer ? new URL(req.headers.referer).searchParams.get('search') : null;
     
-    const redirectUrl = new URL(req.headers.referer || "/");
+    const redirectUrl = new URL(req.headers.referer as string);
     const params: Record<string, string> = {};
     if (filters.length) params.filters = filters.join(',');
     if (search) params.search = search;

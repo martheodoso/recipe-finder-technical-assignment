@@ -5,8 +5,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-    
-    const searchParams = new URL(req.headers.referer || '/').searchParams;
+    const searchParams = new URL(req.headers.referer as string).searchParams;
     const removeTag = req.query?.removeTag as string;
     
     const filters = searchParams.get('filters')?.split(',') || [];
