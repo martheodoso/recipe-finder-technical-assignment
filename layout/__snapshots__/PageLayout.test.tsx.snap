@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PageLayout render correctly 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-gray-50 dark:bg-gray-900"
+  >
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4"
+    >
+      <header
+        class="mb-8"
+      >
+        <h1
+          class="text-4xl font-bold text-gray-900 dark:text-white mb-2"
+        >
+          Recipe Finder
+        </h1>
+      </header>
+      <div>
+        Test Content
+      </div>
+    </div>
+  </div>
+</div>
+`;
